@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     if (intent.hasExtra("sId") && intent.hasExtra("serverIp") && intent.hasExtra("dId")) {
+      Log.i("debugg","in if line 51");
       sId = intent.getIntExtra("sId", 0);
       endId = intent.getIntExtra("dId", 0);
       ip = intent.getStringExtra("serverIp");

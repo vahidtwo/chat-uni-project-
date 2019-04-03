@@ -16,6 +16,10 @@ import java.net.Socket;
 public class TCPresive implements Runnable {
   private ServerSocket serverSocket;
 
+
+
+
+
   private int serverPort;
   private Handler handler;
   private Context context;
