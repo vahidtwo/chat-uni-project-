@@ -1,4 +1,4 @@
-package com.dclxvi.vahid.chat;
+package com.DCLXVI.filteringchat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.dclxvi.vahid.chat.tcpConnection.TCPresive;
-import com.dclxvi.vahid.chat.tcpConnection.TCPsend;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,8 +25,11 @@ public class MainActivity extends AppCompatActivity {
   Context context;
 
   private int sId;
+  private int port=16661;
   private int endId;
+
   private String ip;
+  private String oldmsg="";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +50,17 @@ public class MainActivity extends AppCompatActivity {
 
     if (intent.hasExtra("sId") && intent.hasExtra("serverIp") && intent.hasExtra("dId")) {
       Log.i("debugg","in if line 51");
-      sId = intent.getIntExtra("sId", 0);
-      endId = intent.getIntExtra("dId", 0);
+      sId = intent.getIntExtra("sId", 1);
+      endId = intent.getIntExtra("dId", 2);
       ip = intent.getStringExtra("serverIp");
     }
 
-    TCPresive serverRunnable = new TCPresive(666, context, handler);
+    TCPresive serverRunnable = new TCPresive(port, context, handler);
     try {
 
       server = new Thread(serverRunnable);
       server.start();
+      Log.i("debugg","server started");
 
     } catch (Exception ex) {
       ex.printStackTrace();
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         try {
 
           String text = edtIn.getText().toString();
-          new TCPsend().setIP(ip).setMessage("msg:" + text + ",sId:" + sId + ",dId:" + endId).setPort(666).start();
+          new TCPsend().setIP(ip).setMessage("msg:" + text + ",sId:" + sId + ",dId:" + endId).setPort(port).start();
           String tmp = txtMe.getText().toString();
           tmp += "\n" + "sId: " + sId + "\t\t" + text;
           txtMe.setText(tmp);
@@ -84,14 +86,32 @@ public class MainActivity extends AppCompatActivity {
     new Thread(new Runnable() {
       @Override
       public void run() {
-        handler.post(new Runnable() {
-          @Override
-          public void run() {
-                String tmp = txtOther.getText().toString();
-                tmp += "\n" + "sId:" + packet.dId + " say: " + packet.msg;
-                txtOther.setText(tmp);
+        Log.i("debuggUI","in thread");
+        while (true){
+
+          try {
+            Thread.sleep(30);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
           }
-        });
+          if (oldmsg!=packet.msg)
+            synchronized (packet.dId){
+              synchronized (packet.msg){
+                oldmsg=packet.msg;
+
+                handler.post(new Runnable() {
+                  @Override
+                  public void run() {
+                    String tmp = txtOther.getText().toString();
+                    tmp += "\n" + "sId:" + packet.dId + " say: " + packet.msg;
+                    txtOther.setText(tmp);
+                    Log.i("debuggUI","msg  set to UI ::::"+tmp);
+                  }
+                });
+
+              }}}
+
+
       }
     }).start();
 

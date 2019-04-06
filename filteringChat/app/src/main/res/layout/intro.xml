@@ -30,7 +30,7 @@
     android:ems="10"
     android:hint="Port"
     android:inputType="number"
-    android:text="1"
+    android:text="2"
     app:layout_constraintEnd_toEndOf="@+id/edt_endId"
     app:layout_constraintStart_toStartOf="@+id/edt_endId"
     app:layout_constraintTop_toTopOf="parent"/>
@@ -57,7 +57,7 @@
     android:ems="10"
     android:hint="Port"
     android:inputType="number"
-    android:text="2"
+    android:text="1"
     app:layout_constraintEnd_toEndOf="@+id/edtIp"
     app:layout_constraintStart_toStartOf="@+id/edtIp"
     app:layout_constraintTop_toBottomOf="@+id/edtMyId"/>

@@ -49,12 +49,15 @@ try:
             print('wait for conn')
             conn,addr = s.accept()
             print("connected by: "+str(addr[0]))
+            # ct = client_thread(conn)
+            # ct.run()
             dataFromSocket = conn.recv(1024)
             print('massage from :'+str(addr[0])+' is : '+str(dataFromSocket))
+            print('decoded massage from :'+str(addr[0])+' is : '+str(dataFromSocket.decode()))
             conn.close()
             print('conn closed')
             # s.close()
-            # print('/////   socket closed    \ \ \ \ ')
+            # print('/////   socket closed    \ \ \ \ ')None
         except Exception as e :
             print(e)
             print('sonthing wrong in socket line 59')
@@ -94,9 +97,11 @@ try:
                     dip=str(ipId.get(dId))
                     a.connect_ex((dip,16661))
                     print('connected')
-                    msg="msg:"+str(msg)+",sId:"+str(sid)+"dId:"+str(dId)
+                    msg="msg:"+str(msg)+",sId:"+str(sid)+",dId:"+str(dId)
                     print(msg)
-                    a.sendto(msg,(dip,16661))
+                    # a.send(bytes( msg,'utf-8'))
+                    a.send( msg.encode())
+                    
                     
                     print('***** send msg ****')
                     a.close()

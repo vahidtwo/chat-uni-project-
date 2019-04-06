@@ -1,4 +1,4 @@
-package com.dclxvi.vahid.chat.tcpConnection;
+package com.DCLXVI.filteringchat;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -20,10 +20,17 @@ public class TCPsend extends AsyncTask<Void, Void, Void> {
   @Override
   protected Void doInBackground(Void... params) {
     try {
+      Log.i("debuggsend","send socket in doInBackground");
+      Log.i("debuggsend","ip:"+ip+" port:"+port+" "+massage);
+
       socket = new Socket(ip, port);
+      Log.i("debuggsend","send socket socket creat");
       pw = new PrintWriter(socket.getOutputStream());
+      Log.i("debuggsend","send socket msg is "+massage);
       pw.write(massage);
+      Log.i("debuggsend","send socket pw write");
       pw.flush();
+      Log.i("debuggsend","send socket flush");
       pw.close();
       socket.close();
 
@@ -38,7 +45,7 @@ public class TCPsend extends AsyncTask<Void, Void, Void> {
 
   public void start() {
     this.execute();
-    Log.i("test", "THread start");
+    Log.i("debuggsend", "send THread start");
   }
 
   public TCPsend setIP(String IP) {

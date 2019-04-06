@@ -1,4 +1,4 @@
-package com.dclxvi.vahid.chat;
+package com.DCLXVI.filteringchat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.dclxvi.vahid.chat.tcpConnection.TCPsend;
 
 
 public class socketProgramming extends AppCompatActivity {
@@ -36,24 +34,24 @@ public class socketProgramming extends AppCompatActivity {
       public void onClick(View v) {
 
         serverIp = edt_ip.getText().toString();
-        Log.i("test","serverIp"+ serverIp);
+        Log.i("debugg","serverIp"+ serverIp);
 
         sId = Integer.valueOf(edt_MyId.getText().toString());
         dId = Integer.valueOf(edt_ToId.getText().toString());
 
 
         Intent intent = new Intent(socketProgramming.this, MainActivity.class);
-        intent.putExtra("port", sId);
+        intent.putExtra("sId", sId);
         intent.putExtra("dId", dId);
         intent.putExtra("serverIp", serverIp);
 
-        new TCPsend().setIP(serverIp).setMessage("sId:"+ sId).setPort(666).start();
+        new TCPsend().setIP(serverIp).setMessage("sId:"+ sId).setPort(16661).start();
 
 
         startActivity(intent);
         finish();
 
-        Log.w("test","sId: "+ sId +" and serverIp: "+ serverIp +" and to sId is "+ dId);
+        Log.i("debugg","sId: "+ sId +" and serverIp: "+ serverIp +" and to dId is "+ dId);
 
       }
 
