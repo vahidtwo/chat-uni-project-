@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,7 +73,12 @@ public class MainActivity extends AppCompatActivity {
         try {
 
           String text = edtIn.getText().toString();
-          new TCPsend().setIP(ip).setMessage("msg:" + text + ",sId:" + sId + ",dId:" + endId).setPort(port).start();
+          JSONObject obj = new JSONObject();
+          obj.put("msg",text);
+          obj.put("sId",sId);
+          obj.put("dId",text);
+          obj.put("msg",endId);
+          new TCPsend().setIP(ip).setMessage(obj.toString()).setPort(port).start();
           String tmp = txtMe.getText().toString();
           tmp += "\n" + "sId: " + sId + "\t\t" + text;
           txtMe.setText(tmp);
