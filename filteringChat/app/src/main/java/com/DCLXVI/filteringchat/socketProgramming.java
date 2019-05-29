@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class socketProgramming extends AppCompatActivity {
 
@@ -44,8 +47,13 @@ public class socketProgramming extends AppCompatActivity {
         intent.putExtra("sId", sId);
         intent.putExtra("dId", dId);
         intent.putExtra("serverIp", serverIp);
-
-        new TCPsend().setIP(serverIp).setMessage("sId:"+ sId).setPort(16661).start();
+          JSONObject jj = new JSONObject();
+          try {
+              jj.put("sId",sId);
+          } catch (JSONException e) {
+              e.printStackTrace();
+          }
+          new TCPsend().setIP(serverIp).setMessage(jj.toString()).setPort(16661).start();
 
 
         startActivity(intent);
